@@ -31,8 +31,7 @@ h1 {
 }
 
 .App {
-    position: relative;
-    height: 100vh;
+    margin-bottom: 5rem;
 }
 
 .container {
@@ -87,7 +86,12 @@ a {
     margin-right: auto;
 }
 
-// Header/nav element
+// Loader component
+.loader {
+    height: 50%;
+}
+
+// Header/nav component
 header {
     display: flex;
     padding-top: 3rem;
@@ -308,6 +312,7 @@ section.hero {
     .description {
         margin: 3rem 0;
         line-height: 1.4rem;
+        max-width: 50rem;
     }
 
     .top-actors {
@@ -325,6 +330,15 @@ section.hero {
                 height: 30vh;
                 object-fit: cover;
                 object-position: center;
+            }
+
+            h4 {
+                margin-bottom: 0.5rem;
+            }
+
+            p {
+                margin: 0;
+                line-height: 1rem;
             }
         }
     }
@@ -353,6 +367,9 @@ footer {
     min-height: 8rem;
     display: flex;
     margin-top: 4.5rem;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 
     .logo {
         margin: auto;

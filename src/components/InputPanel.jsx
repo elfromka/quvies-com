@@ -3,10 +3,10 @@ import React from "react";
 export default function InputPanel({
     genres,
     handleChange,
-    handleClear,
-    inputPanelData,
+    handleSubmit,
+    query,
 }) {
-    const { searchByKeyword, sortByRating, filterByGenre } = inputPanelData;
+    const { searchByKeyword, sortByRating, filterByGenre } = query;
 
     return (
         <div className="input-panel">
@@ -39,15 +39,16 @@ export default function InputPanel({
                 </select>
             </div>
             <div className="input-container">
-                <input
-                    type="text"
-                    placeholder="Enter a keyword..."
-                    onChange={handleChange}
-                    onClick={handleClear}
-                    name="searchByKeyword"
-                    value={searchByKeyword}
-                />
-                <button className="btn btn-primary">Search</button>
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        placeholder="Enter a keyword..."
+                        name="searchByKeyword"
+                        value={searchByKeyword}
+                        onChange={handleChange}
+                    />
+                    <button className="btn btn-primary">Search</button>
+                </form>
             </div>
         </div>
     );
