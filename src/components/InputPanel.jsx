@@ -1,0 +1,54 @@
+import React from "react";
+
+export default function InputPanel({
+    genres,
+    handleChange,
+    handleClear,
+    inputPanelData,
+}) {
+    const { searchByKeyword, sortByRating, filterByGenre } = inputPanelData;
+
+    return (
+        <div className="input-panel">
+            <div className="select-container">
+                <select
+                    id="filterByGenre"
+                    value={filterByGenre}
+                    onChange={handleChange}
+                    name="filterByGenre"
+                >
+                    <option value="">Select genre</option>
+                    {genres &&
+                        genres.map((genre) => {
+                            return (
+                                <option key={genre.id} value={genre.id}>
+                                    {genre.name}
+                                </option>
+                            );
+                        })}
+                </select>
+                <select
+                    id="sortByRating"
+                    value={sortByRating}
+                    onChange={handleChange}
+                    name="sortByRating"
+                >
+                    <option value="">Sort by rating</option>
+                    <option value="asc">ASC</option>
+                    <option value="desc">DESC</option>
+                </select>
+            </div>
+            <div className="input-container">
+                <input
+                    type="text"
+                    placeholder="Enter a keyword..."
+                    onChange={handleChange}
+                    onClick={handleClear}
+                    name="searchByKeyword"
+                    value={searchByKeyword}
+                />
+                <button className="btn btn-primary">Search</button>
+            </div>
+        </div>
+    );
+}
