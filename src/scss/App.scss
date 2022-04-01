@@ -181,18 +181,15 @@ section.hero {
         margin-right: 10px;
 
         &::-webkit-input-placeholder {
-            color: red;
-            color: $text-color;
+            color: $grey-color;
         }
 
         &:-ms-input-placeholder {
-            color: red;
-            color: $text-color;
+            color: $grey-color;
         }
 
         &::placeholder {
-            color: red;
-            color: $text-color;
+            color: $grey-color;
         }
     }
 }
