@@ -1,10 +1,13 @@
 import React from "react";
+import ApiDb from "../util/api-db";
 
 export default function MovieCard({ info }) {
+    const { IMG_URL, FALLBACK_IMG_URL } = ApiDb;
     const { title, poster_path, vote_average } = info;
+
     const poster = poster_path
-        ? `https://image.tmdb.org/t/p/w500/${poster_path}`
-        : `http://via.placeholder.com/800x500`;
+        ? `${IMG_URL}${poster_path}`
+        : `${FALLBACK_IMG_URL}800x500`;
 
     return (
         <div className="card">

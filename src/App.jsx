@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import axios from "axios";
+import ApiDb from "./util/api-db";
 
 import "normalize.css";
 import "./scss/App.scss";
@@ -11,8 +12,7 @@ import Movie from "./components/Movie";
 import NotFound from "./components/NotFound";
 
 function App() {
-    const API_KEY = "api_key=33925aae900a791e5e7fc4df628771dc";
-    const BASE_URL = "https://api.themoviedb.org/3/";
+    const { BASE_URL, API_KEY } = ApiDb;
 
     const [movies, setMovies] = useState([]);
     const [genres, setGenres] = useState([]);
@@ -22,6 +22,11 @@ function App() {
         filterByGenre: "",
     });
 
+    /**
+     * Retrieves movies from the movie db API.
+     *
+     * @param none
+     */
     const fetchMovies = async () => {
         try {
             const responseMovies = await axios.get(
@@ -34,6 +39,11 @@ function App() {
         }
     };
 
+    /**
+     * Retrieves all genres from the movie db API.
+     *
+     * @param none
+     */
     const fetchGenres = async () => {
         try {
             const responseGenres = await axios.get(
@@ -46,16 +56,27 @@ function App() {
         }
     };
 
+    /**
+     * Retrieves movies from the movie db API based on the keyword
+     * entered in the search form.
+     *
+     * @param none
+     */
     const fetchSearchedMovie = async () => {
-        try {
-            const responseMovies = await axios.get(
-                `${BASE_URL}search/movie?${API_KEY}&query=${query.searchByKeyword}`
-            );
+        const { searchByKeyword } = query;
 
-            setMovies(responseMovies.data.results);
-            console.log(movies);
-        } catch (error) {
-            console.error(error);
+        if (searchByKeyword) {
+            try {
+                const responseMovies = await axios.get(
+                    `${BASE_URL}search/movie?${API_KEY}&query=${searchByKeyword}`
+                );
+
+                setMovies(responseMovies.data.results);
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+            fetchMovies();
         }
     };
 
@@ -64,6 +85,12 @@ function App() {
         fetchGenres();
     }, []);
 
+    /**
+     * Checks changes in select/dropdowns and input as well on from the
+     * InputPanel component(search, filter/sort).
+     *
+     * @param event
+     */
     function handleChange(event) {
         const { name, value, type } = event.target;
 
@@ -113,14 +140,28 @@ function App() {
         }
     }
 
+    /**
+     * Function fired on form submit when a keyword is entered in the search input
+     * and the 'Search' button is pressed(form submitted). Clears the previous
+     * value/clears the input on submit.
+     *
+     * @param event
+     */
     function handleSubmit(event) {
         event.preventDefault();
 
+        // clear previous value of input
         handleClear();
 
+        // retrieve data based on the prev entered keyword
         fetchSearchedMovie();
     }
 
+    /**
+     * Called from handleSubmit method to clear input value.
+     *
+     * @param event
+     */
     function handleClear() {
         setQuery((prevQuery) => {
             return {

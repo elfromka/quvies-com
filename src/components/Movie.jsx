@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import ApiDb from "../util/api-db";
 
 export default function Movie() {
-    const [movie, setMovie] = useState([]);
-    const [cast, setCast] = useState([]);
+    const { BASE_URL, API_KEY, IMG_URL, FALLBACK_IMG_URL } = ApiDb;
     const params = useParams();
 
-    const API_KEY = "api_key=33925aae900a791e5e7fc4df628771dc";
-    const BASE_URL = "https://api.themoviedb.org/3/";
+    const [movie, setMovie] = useState([]);
+    const [cast, setCast] = useState([]);
 
+    /**
+     * Makes API request to get the details of the movie and
+     * the cast of the movie. Then the cast list is sorted/filtered
+     * to retrieve the top 3 actors with the highest popularity.
+     *
+     * @param none
+     */
     const fetchMovieData = async () => {
         try {
             const responseMovie = await axios.get(
@@ -44,10 +51,18 @@ export default function Movie() {
         movie;
 
     const cover = backdrop_path
-        ? `https://image.tmdb.org/t/p/w500/${backdrop_path}`
-        : `http://via.placeholder.com/1500x500`;
+        ? `${IMG_URL}${backdrop_path}`
+        : `${FALLBACK_IMG_URL}1500x500`;
 
     const releaseYear = new Date(release_date).getFullYear();
+
+    /**
+     * Based on the value (minutes) in the n param the hour and minutes are calculated
+     * and returned as string.
+     *
+     * @param {Number} n - minutes from the movie
+     * @return {String} as: xh ym
+     */
     const convertRuntime = (n) =>
         `${(n / 60) ^ 0}`.slice(-2) + "h " + ("0" + (n % 60)).slice(-2) + "m";
 
